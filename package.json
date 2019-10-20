@@ -1,0 +1,43 @@
+{
+  "name": "tonyb983.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "lodash": "^4.17.15",
+    "mobx": "^5.14.2",
+    "mobx-react-lite": "^1.5.0",
+    "mobx-state-tree": "^3.14.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-scripts": "3.2.0",
+    "rxjs": "^6.5.3",
+    "shortid": "^2.2.15"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.7",
+    "danger": "^9.2.2",
+    "husky": "^3.0.9"
+  }
+}
