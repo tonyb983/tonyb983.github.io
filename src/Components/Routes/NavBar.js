@@ -1,10 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from '../Layout/Home';
-import About from '../Layout/About';
-import Users from '../Layout/Users';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
-import style from './Navigation.module.css';
+import style from './NavBar.module.css';
 
 const NavBar = ({ routes }) => {
   if (!routes) {
@@ -15,8 +13,10 @@ const NavBar = ({ routes }) => {
   return (
     <div>
       <ul className={style.Navigation}>
-        {routes.map((r) => (
-          <Link to={r.url}>{r.name}</Link>
+        {_.map(routes, (route, key) => (
+          <Link key={key} to={route.url}>
+            {route.name}
+          </Link>
         ))}
       </ul>
     </div>

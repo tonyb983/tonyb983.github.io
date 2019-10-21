@@ -89,6 +89,8 @@ describe('Blog Tests', () => {
     const idSearch = store.getPostByID(id1);
     expect(idSearch).toBeDefined();
     expect(idSearch.content).toBe('Post content number one.');
+
+    //console.log(`BlogModel: ${JSON.stringify(store, null, 2)}`);
   });
 
   it('Fails gracefully when given invalid data.', () => {

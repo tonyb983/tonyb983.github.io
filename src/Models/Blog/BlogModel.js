@@ -20,6 +20,9 @@ export const Blog = types
       );
       return result;
     },
+    get allPosts() {
+      return values(self.posts);
+    },
     /**
      * Searches for a Post with the given ID.
      * @param {String} id The ID to search for.
@@ -175,12 +178,7 @@ export const Blog = types
     addPost(post) {
       if (!post) {
         if (self.debugMode) {
-          const logger = getEnv(self).logger;
-          if (logger) {
-            logger.Error(`PostStore@AddPost(): Given post is not defined.`);
-          } else {
-            console.error(`PostStore@AddPost(): Given post is not defined.`);
-          }
+          console.error(`PostStore@AddPost(): Given post is not defined.`);
         }
 
         return;
@@ -203,12 +201,7 @@ export const Blog = types
       }
 
       if (self.debugMode) {
-        const logger = getEnv(self).logger;
-        if (logger) {
-          logger.Error(`PostStore@AddPost(): Given post is not valid.`);
-        } else {
-          console.error(`PostStore@AddPost(): Given post is not valid.`);
-        }
+        console.error(`PostStore@AddPost(): Given post is not valid.`);
       }
     },
     removePost(post) {
