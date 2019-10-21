@@ -1,11 +1,12 @@
 import React from 'react';
-import Navigation from './Components/Layout/Navigation';
+import Switchboard from './Components/Routes/Switchboard';
+import { defaultRoutes } from './Components/Routes/Switchboard';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Navigation />
+      <Switchboard routes={defaultRoutes} />
     </div>
   );
 }
