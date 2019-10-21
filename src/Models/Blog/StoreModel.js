@@ -1,5 +1,5 @@
 import { types, getEnv } from 'mobx-state-tree';
-import { random } from 'lodash';
+import { random, times, isNumber, isArray, isMatch, isEmpty, isNil, has } from 'lodash';
 import faker from 'faker';
 import { Post } from './PostModel';
 import { Blog } from './BlogModel';
@@ -67,9 +67,21 @@ export const createPreloadedStore = () => {
   return store;
 };
 
-export const createRandomStore = () => {};
+export const createStoreFromSnapshot = (snapShot) => {
+  if (!snapShot) return createFreshStore();
 
-const CreateUser = () => {
+  return Store.create(snapShot);
+};
+
+export const createRandomStore = () => {
+  
+  const users = CreateUserStore(times(random(5, 10), (_) => CreateRandomUser()));
+  const blog = CreateBlog(times(random(10,40), (_) => CreateRandomPost()))
+
+  return Store.create({blog, users});
+};
+
+export const CreateRandomUser = () => {
   const u = faker.helpers.userCard();
   const p = faker.random.alphaNumeric(random(8, 14));
   const settings = UserSettings.create();
@@ -82,17 +94,65 @@ const CreateUser = () => {
   return User.create({ login: u.email, password: p, settings });
 };
 
-const CreatePost = () => {
+export const CreateUserStore = (options = undefined) => {
+  const store = UserStore.create();
+
+  if(!options || isNil(options)) return store;
+
+  if(isNumber(options) && options > 0){
+    times(count, (_) => CreateRandomUser()).forEach(u => store.registerUser(u));
+    return store;
+  }
+
+  if(has(options,['min', 'max']) &&
+      isNumber(options.min) &&
+      isNumber(options.max) &&
+      options.min >= 0 &&
+      options.max >= options.min){
+    times(random(options.min, options.max), (_) => CreateRandomUser()).forEach(u => store.registerUser(u));
+    return store;
+  }
+
+  if(isArray(options) && options.length > 0 && options.every(i => !isNil(i))){
+    users.forEach(u => store.registerUser(u));
+    return store;
+  }
+
+  return store;
+}
+
+export const CreateRandomPost = () => {
   const title = faker.hacker.phrase;
-  let content = '';
-  const _ = new Array(random(1, 6)).forEach((_) => (content += faker.company.catchPhrase() + ' '));
-  const tags = new Array(random(6));
-  tags.forEach((t, i) => (tags[i] = faker.commerce.department));
+  const content = times(random(1, 6), (_) => faker.company.catchPhrase).join('. ');
+  const tags = times(random(6), (_) => faker.commerce.department);
   return Post.create({ title, content, tags });
 };
 
-export const createStoreFromSnapshot = (snapShot) => {
-  if (!snapShot) return createFreshStore();
+export const CreateBlog = (options = undefined) => {
+  const store = Blog.create();
 
-  return Store.create(snapShot);
-};
+  if(!options || isNil(options)) return store;
+
+  if(isNumber(options) && options > 0){
+    times(count, (_) => CreateRandomPost()).forEach(p => store.addPost(p));
+    return store;
+  }
+
+  if(has(options,['min', 'max']) &&
+      isNumber(options.min) &&
+      isNumber(options.max) &&
+      options.min >= 0 &&
+      options.max >= options.min){
+    times(random(options.min, options.max), (_) => CreateRandomPost()).forEach(p => store.addPost(p));
+    return store;
+  }
+
+  if(isArray(options) && options.length > 0 && options.every(i => !isNil(i))){
+    users.forEach(p => store.addPost(p));
+    return store;
+  }
+
+  return store;
+}
+
+
