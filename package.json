@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "chalk": "^2.4.2",
+    "date-fns": "^2.5.1",
     "lodash": "^4.17.15",
     "mobx": "^5.14.2",
     "mobx-react-lite": "^1.5.0",
     "mobx-state-tree": "^3.14.1",
+    "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
@@ -18,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "storybook": "start-storybook"
   },
   "eslintConfig": {
     "extends": [
@@ -34,7 +37,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": ["eslint --fix", "prettier --write", "git add"]
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [
@@ -49,10 +56,29 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.2.4",
+    "@storybook/addon-backgrounds": "^5.2.4",
+    "@storybook/addon-console": "^1.2.1",
+    "@storybook/addon-info": "^5.2.4",
+    "@storybook/addon-knobs": "^5.2.4",
+    "@storybook/addon-links": "^5.2.4",
+    "@storybook/addon-notes": "^5.2.4",
+    "@storybook/addon-storysource": "^5.2.4",
+    "@storybook/addon-viewport": "^5.2.4",
+    "@storybook/addons": "^5.2.4",
+    "@storybook/react": "^5.2.4",
+    "@storybook/theming": "^5.2.4",
+    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/react": "^9.3.0",
+    "@types/jest": "^24.0.19",
     "coveralls": "^3.0.7",
     "danger": "^9.2.2",
     "husky": "^3.0.9",
+    "jest-chain": "^1.1.2",
+    "jest-extended": "^0.11.2",
     "lint-staged": "^9.4.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "prettier-plugin-packagejson": "^2.0.1",
+    "storybook-addon-themes": "^5.2.0"
   }
 }
