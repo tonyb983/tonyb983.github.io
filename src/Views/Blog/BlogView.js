@@ -1,7 +1,6 @@
 import React from 'react';
 import { values } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { Blog } from '../../Models/Blog/BlogModel';
 import PostView from './PostView';
 
 const BlogView = ({ blog }) => {
