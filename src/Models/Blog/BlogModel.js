@@ -1,6 +1,6 @@
 import { values } from 'mobx';
 import { types, getEnv, isStateTreeNode, typecheck } from 'mobx-state-tree';
-import { isString, isBoolean, head } from 'lodash';
+import { isString, isBoolean, head, has } from 'lodash';
 import { Post } from './PostModel';
 
 export const Blog = types
@@ -18,6 +18,19 @@ export const Blog = types
       values(self.posts).forEach((post) =>
         post.tags.forEach((tag) => result.indexOf(tag) < 0 && result.push(tag)),
       );
+      return result;
+    },
+    get tagCounts() {
+      const result = {};
+      values(self.posts).forEach((post) => {
+        post.tags.forEach((tag) => {
+          if (has(result, tag)) {
+            result[tag] += 1;
+          } else {
+            result[tag] = 0;
+          }
+        });
+      });
       return result;
     },
     get allPosts() {

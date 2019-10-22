@@ -26,9 +26,9 @@ describe('Blog View Tests', () => {
   });
 
   it('Renders when the store has no posts.', async () => {
-    const store = Blog.create({});
+    const blog = Blog.create({});
 
-    const queries = render(<BlogView store={store} />);
+    const queries = render(<BlogView blog={blog} />);
     expect(queries.container.children.item(0).className).toBe('BlogView');
   });
 
@@ -48,13 +48,13 @@ describe('Blog View Tests', () => {
       content: 'Post content number three.',
       tags: ['tag6', 'tag4', 'tag1'],
     });
-    const store = Blog.create();
+    const blog = Blog.create();
 
-    store.addPost(post1);
-    store.addPost(post2);
-    store.addPost(post3);
+    blog.addPost(post1);
+    blog.addPost(post2);
+    blog.addPost(post3);
 
-    const queries = render(<BlogView store={store} />);
+    const queries = render(<BlogView blog={blog} />);
     const blogView = head(queries.container.getElementsByClassName('BlogView'));
     const postViews = queries.container.getElementsByClassName('PostView');
 
@@ -63,7 +63,7 @@ describe('Blog View Tests', () => {
     expect(postViews.length).toBe(3);
 
     act(() => {
-      store.addPost({ title: 'Post 4', content: 'The fourth post son!' });
+      blog.addPost({ title: 'Post 4', content: 'The fourth post son!' });
     });
     const newPostViews = queries.container.getElementsByClassName('PostView');
     expect(newPostViews.length).toBe(4);

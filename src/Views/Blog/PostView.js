@@ -19,7 +19,7 @@ const PostView = ({ post }) => {
       <h2 className="PostTitle">{title}</h2>
       <span className="PostDate">{format(created, 'Pp')}</span>
       <div className="PostContent">{content}</div>
-      <div className="PostTags">{tags && tags.length > 0 && tags.join(' ')}</div>
+      <div className="PostTags">{tags && tags.length > 0 && 'Tags: '.concat(tags.join(' '))}</div>
     </div>
   );
 };

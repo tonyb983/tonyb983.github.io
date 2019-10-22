@@ -4,14 +4,18 @@ import _ from 'lodash';
 import faker from 'faker';
 
 import NavBar from './NavBar';
-import Home from '../_Placeholder/Home';
-import About from '../_Placeholder/About';
-import Users from '../_Placeholder/Users';
+import IndexPage from '../Pages/IndexPage';
+import UsersPage from '../Pages/UsersPage';
+import PostsPage from '../Pages/PostsPage';
+import TagsPage from '../Pages/TagsPage';
+import NewPostPage from '../Pages/NewPostPage';
 
 export const defaultRoutes = {
-  home: { url: '/', name: 'Home', exact: true, component: <Home /> },
-  about: { url: '/about', name: 'About', exact: false, component: <About /> },
-  users: { url: '/users', name: 'Users', exact: false, component: <Users /> },
+  home: { url: '/', name: 'Home', exact: true, component: <IndexPage /> },
+  about: { url: '/posts', name: 'Posts', exact: false, component: <PostsPage /> },
+  users: { url: '/users', name: 'Users', exact: false, component: <UsersPage /> },
+  allTags: { url: '/tags', name: 'All Tags', exact: false, component: <TagsPage /> },
+  newPost: { url: '/newpost', name: 'New Post', exact: false, component: <NewPostPage /> },
 };
 
 const Switchboard = ({ routes }) => {
