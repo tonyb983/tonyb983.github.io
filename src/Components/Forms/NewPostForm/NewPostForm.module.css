@@ -1,0 +1,83 @@
+.Form {
+    padding: 200px;
+  }
+
+.Title {
+    width: 100%;
+    height: 50px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+
+.Content {
+    width: 100%;
+    height: 200px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+
+.Button {
+  background-color: #6666ff;
+  border-radius: 10px;
+  color: white;
+  padding: 8px;
+  border: solid 2px #6666ff;
+  margin: 10px;
+}
+
+.SubmitButton {
+  background-color: #00ff00;
+  border: solid 2px #00ff00;
+}
+
+.ErrorText {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 7px;
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    color: red;
+    background-color: #ff9999;
+  }
+
+.Overlay {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+  }
+
+.TagContainer {
+    border: '1px solid #ddd';
+    padding: '5px';
+    border-radius: '5px';
+  };
+
+.Tag {
+    display: 'inline-block';
+    padding: '2px';
+    border: '1px solid blue';
+    font-family: 'Helvetica; sans-serif';
+    border-radius: '5px';
+    margin-right: '5px';
+    cursor: 'pointer'
+  };
+
+.TagInput {
+    outline: 'none';
+    border: 'none';
+    font-size: '14px';
+    font-family: 'Helvetica, sans-serif';
+  }
