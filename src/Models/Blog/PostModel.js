@@ -1,6 +1,5 @@
 import { types } from 'mobx-state-tree';
-import { values } from 'mobx';
-import { uniq, flatten, isString, isArray, isFunction, isBoolean } from 'lodash';
+import { isString, isArray } from 'lodash';
 import shortid from 'shortid';
 
 export const Post = types

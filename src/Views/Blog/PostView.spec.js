@@ -55,7 +55,7 @@ describe('Post View Tests', () => {
     expect(contentDiv.textContent).toBe(
       "This is the post content. It's longer that it needs to be.",
     );
-    expect(tagsDiv.textContent).toBe(['tag1', 'tag2'].join(' '));
+    expect(tagsDiv.textContent).toBe(['Tags:', 'tag1', 'tag2'].join(' '));
 
     //console.log(prettyDOM(titleH2));
     act(() => {

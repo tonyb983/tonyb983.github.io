@@ -1,5 +1,5 @@
 import { types, getEnv } from 'mobx-state-tree';
-import { random, times, isNumber, isArray, isMatch, isEmpty, isNil, has } from 'lodash';
+import { random, times, isNumber, isArray, isNil, has } from 'lodash';
 import faker from 'faker';
 import { Post } from './PostModel';
 import { Blog } from './BlogModel';
@@ -8,7 +8,7 @@ import { User, UserStore, UserSettings } from './UserModel';
 export const Store = types
   .model({
     blog: types.optional(Blog, () => ({ posts: {}, debugMode: false })),
-    users: types.optional(UserStore, () => ({ users: {}, debugMode: false })),
+    userDB: types.optional(UserStore, () => ({ users: {}, debugMode: false })),
   })
   .views((self) => ({
     get env() {
@@ -16,6 +16,9 @@ export const Store = types
     },
     get allPosts() {
       return self.blog.allPosts;
+    },
+    get allUsers() {
+      return self.users.allUsers;
     },
   }))
   .actions((self) => ({}));
@@ -74,11 +77,12 @@ export const createStoreFromSnapshot = (snapShot) => {
 };
 
 export const createRandomStore = () => {
-  
-  const users = CreateUserStore(times(random(5, 10), (_) => CreateRandomUser()));
-  const blog = CreateBlog(times(random(10,40), (_) => CreateRandomPost()))
+  const users = CreateUserStore(8);
+  const blog = CreateBlog(30);
 
-  return Store.create({blog, users});
+  const store = Store.create({ blog, users });
+  console.log(`Created Random Store: ${JSON.stringify(store, null, 2)}`);
+  return store;
 };
 
 export const CreateRandomUser = () => {
@@ -97,62 +101,68 @@ export const CreateRandomUser = () => {
 export const CreateUserStore = (options = undefined) => {
   const store = UserStore.create();
 
-  if(!options || isNil(options)) return store;
+  if (!options || isNil(options)) return store;
 
-  if(isNumber(options) && options > 0){
-    times(count, (_) => CreateRandomUser()).forEach(u => store.registerUser(u));
+  if (isNumber(options) && options > 0) {
+    times(options, (_) => CreateRandomUser()).forEach((u) => store.registerUser(u));
     return store;
   }
 
-  if(has(options,['min', 'max']) &&
-      isNumber(options.min) &&
-      isNumber(options.max) &&
-      options.min >= 0 &&
-      options.max >= options.min){
-    times(random(options.min, options.max), (_) => CreateRandomUser()).forEach(u => store.registerUser(u));
+  if (
+    has(options, ['min', 'max']) &&
+    isNumber(options.min) &&
+    isNumber(options.max) &&
+    options.min >= 0 &&
+    options.max >= options.min
+  ) {
+    times(random(options.min, options.max), (_) => CreateRandomUser()).forEach((u) =>
+      store.registerUser(u),
+    );
     return store;
   }
 
-  if(isArray(options) && options.length > 0 && options.every(i => !isNil(i))){
-    users.forEach(u => store.registerUser(u));
+  if (isArray(options) && options.length > 0 && options.every((i) => !isNil(i))) {
+    options.forEach((u) => store.registerUser(u));
     return store;
   }
 
   return store;
-}
+};
 
 export const CreateRandomPost = () => {
-  const title = faker.hacker.phrase;
-  const content = times(random(1, 6), (_) => faker.company.catchPhrase).join('. ');
-  const tags = times(random(6), (_) => faker.commerce.department);
+  const title = faker.company.catchPhrase();
+  const content = times(random(1, 5), (_) => faker.hacker.phrase()).join('. ');
+  const tags = times(random(6), (_) => faker.commerce.department());
   return Post.create({ title, content, tags });
 };
 
 export const CreateBlog = (options = undefined) => {
   const store = Blog.create();
 
-  if(!options || isNil(options)) return store;
+  if (!options || isNil(options)) return store;
 
-  if(isNumber(options) && options > 0){
-    times(count, (_) => CreateRandomPost()).forEach(p => store.addPost(p));
+  if (isNumber(options) && options > 0) {
+    times(options, (_) => CreateRandomPost()).forEach((p) => store.addPost(p));
     return store;
   }
 
-  if(has(options,['min', 'max']) &&
-      isNumber(options.min) &&
-      isNumber(options.max) &&
-      options.min >= 0 &&
-      options.max >= options.min){
-    times(random(options.min, options.max), (_) => CreateRandomPost()).forEach(p => store.addPost(p));
+  if (
+    has(options, ['min', 'max']) &&
+    isNumber(options.min) &&
+    isNumber(options.max) &&
+    options.min >= 0 &&
+    options.max >= options.min
+  ) {
+    times(random(options.min, options.max), (_) => CreateRandomPost()).forEach((p) =>
+      store.addPost(p),
+    );
     return store;
   }
 
-  if(isArray(options) && options.length > 0 && options.every(i => !isNil(i))){
-    users.forEach(p => store.addPost(p));
+  if (isArray(options) && options.length > 0 && options.every((i) => !isNil(i))) {
+    options.forEach((p) => store.addPost(p));
     return store;
   }
 
   return store;
-}
-
-
+};
