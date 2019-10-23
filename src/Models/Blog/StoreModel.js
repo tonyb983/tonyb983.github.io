@@ -85,43 +85,76 @@ export const createRandomStore = () => {
   return store;
 };
 
-export const CreateRandomUser = () => {
-  const u = faker.helpers.userCard();
-  const p = faker.random.alphaNumeric(random(8, 14));
+export const CreateRandomUser = (logs = false) => {
+  const login = faker.internet.email();
+  const password = faker.internet.password(random(8, 16), true);
   const settings = UserSettings.create();
+
   if (random(3) > 1) {
     settings.set('theme', 'Dark');
   }
   if (random(3) > 1) {
     settings.set('emailNotifications', 'true');
   }
-  return User.create({ login: u.email, password: p, settings });
+
+  if (logs) {
+    console.log(
+      `CreateRandomUser: Creating random user - { login: '${login}', password: '${password}', settings: ${JSON.stringify(
+        settings,
+      )} }`,
+    );
+  }
+
+  return User.create({ login, password, settings });
 };
 
-export const CreateUserStore = (options = undefined) => {
+export const CreateUserStore = (options = undefined, logs = false, logUsers = false) => {
   const store = UserStore.create();
 
-  if (!options || isNil(options)) return store;
+  if (isNil(options)) {
+    if (logs) {
+      console.log(
+        'CreateUserStore: undefined or null options value passed in, returning empty UserStore',
+      );
+    }
+    return store;
+  }
 
   if (isNumber(options) && options > 0) {
-    times(options, (_) => CreateRandomUser()).forEach((u) => store.registerUser(u));
+    if (logs) {
+      console.log(`CreateUserStore: number passed in, returning UserStore with ${options} users.`);
+    }
+    times(options, (_) => CreateRandomUser(logUsers)).forEach((u) => store.registerUser(u));
+
     return store;
   }
 
   if (
-    has(options, ['min', 'max']) &&
+    has(options, 'min') &&
+    has(options, 'max') &&
     isNumber(options.min) &&
     isNumber(options.max) &&
     options.min >= 0 &&
     options.max >= options.min
   ) {
-    times(random(options.min, options.max), (_) => CreateRandomUser()).forEach((u) =>
+    if (logs) {
+      console.log(
+        `CreateUserStore: object with min and max passed in, returning UserStore with ${options.min}-${options.max} users.`,
+      );
+    }
+    times(random(options.min, options.max), (_) => CreateRandomUser(logUsers)).forEach((u) =>
       store.registerUser(u),
     );
+
     return store;
   }
 
   if (isArray(options) && options.length > 0 && options.every((i) => !isNil(i))) {
+    if (logs) {
+      console.log(
+        `CreateUserStore: array passed in, returning UserStore with ${options.length} users.`,
+      );
+    }
     options.forEach((u) => store.registerUser(u));
     return store;
   }
@@ -129,37 +162,58 @@ export const CreateUserStore = (options = undefined) => {
   return store;
 };
 
-export const CreateRandomPost = () => {
+export const CreateRandomPost = (logs = false) => {
   const title = faker.company.catchPhrase();
   const content = times(random(1, 5), (_) => faker.hacker.phrase()).join('. ');
   const tags = times(random(6), (_) => faker.commerce.department());
+
+  if (logs) {
+    console.log(
+      `CreateRandomPost: Creating random post - {title: '${title}', content: '${content}', tags: [${tags.join(
+        ',',
+      )}]}`,
+    );
+  }
+
   return Post.create({ title, content, tags });
 };
 
-export const CreateBlog = (options = undefined) => {
+export const CreateBlog = (options = undefined, logs = false, logPosts = false) => {
   const store = Blog.create();
 
-  if (!options || isNil(options)) return store;
+  if (isNil(options)) return store;
 
   if (isNumber(options) && options > 0) {
-    times(options, (_) => CreateRandomPost()).forEach((p) => store.addPost(p));
+    if (logs) {
+      console.log(`CreateBlog: number passed in, returning Blog with ${options} posts.`);
+    }
+    times(options, (_) => CreateRandomPost(logPosts)).forEach((p) => store.addPost(p));
     return store;
   }
 
   if (
-    has(options, ['min', 'max']) &&
+    has(options, 'min') &&
+    has(options, 'max') &&
     isNumber(options.min) &&
     isNumber(options.max) &&
     options.min >= 0 &&
     options.max >= options.min
   ) {
-    times(random(options.min, options.max), (_) => CreateRandomPost()).forEach((p) =>
+    if (logs) {
+      console.log(
+        `CreateBlog: object with min and max passed in, returning Blog with ${options.min}-${options.max} posts.`,
+      );
+    }
+    times(random(options.min, options.max), (_) => CreateRandomPost(logPosts)).forEach((p) =>
       store.addPost(p),
     );
     return store;
   }
 
   if (isArray(options) && options.length > 0 && options.every((i) => !isNil(i))) {
+    if (logs) {
+      console.log(`CreateBlog: array passed in, returning Blog with ${options.length} posts.`);
+    }
     options.forEach((p) => store.addPost(p));
     return store;
   }

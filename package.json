@@ -15,10 +15,12 @@
     "faker": "^4.1.0",
     "formik": "^1.5.8",
     "gh-pages": "^2.1.1",
+    "is-valid-email": "^0.0.5",
     "lodash": "^4.17.15",
     "mobx": "^5.14.2",
     "mobx-react-lite": "^1.5.0",
     "mobx-state-tree": "^3.14.1",
+    "node-email-validation": "^1.0.4",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -41,15 +43,6 @@
     "storybook": "start-storybook",
     "predeploy": "npm run build",
     "deploy": "gh-pages -b master -d build"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ],
-    "rules": {
-      "semi": "error",
-      "no-unused-vars": 0
-    }
   },
   "husky": {
     "hooks": {
@@ -93,6 +86,8 @@
     "@types/jest": "^24.0.19",
     "coveralls": "^3.0.7",
     "danger": "^9.2.2",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "husky": "^3.0.9",
     "jest-chain": "^1.1.2",
     "jest-extended": "^0.11.2",
