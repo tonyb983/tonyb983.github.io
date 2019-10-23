@@ -4,15 +4,19 @@
     "prettier",
     "prettier/react"
   ],
-  "plugins": ["prettier"],
+  "plugins": ["testing-library","prettier"],
   "rules": {
     "prettier/prettier": "error",
     "semi": "error",
     "no-unused-vars": 0,
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "quotes": [
       "error",
       "single",
       { "avoidEscape": true, "allowTemplateLiterals": false }
-    ]
+    ],
+    "testing-library/await-async-query": "error",
+    "testing-library/no-await-sync-query": "error",
+    "testing-library/no-debug": "warn"
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
-import JSONPretty from 'react-json-pretty';
-import { forOwn, forIn, transform } from 'lodash';
+import { forOwn, forIn } from 'lodash';
 
 const Debug = ({ inherited, ...rest }) => {
   const props = [];
@@ -11,9 +10,11 @@ const Debug = ({ inherited, ...rest }) => {
   }
 
   return (
-    <div style={{ alignItems: '' }}>
+    <div style={{ alignSelf: 'flex-start' }}>
       {props.map(([k, v]) => (
-        <JSONPretty id={k} data={v} />
+        <pre key={k}>
+          {k}: {JSON.stringify(v, null, '\t')}
+        </pre>
       ))}
     </div>
   );

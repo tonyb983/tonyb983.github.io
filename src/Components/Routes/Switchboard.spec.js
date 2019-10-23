@@ -7,7 +7,7 @@ import {
   waitForDomChange,
   prettyDOM,
   cleanup,
-} from '@testing-library/react';
+} from '../../Utils/TestUtils';
 import { MemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
 import { head } from 'lodash';

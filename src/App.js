@@ -1,15 +1,14 @@
 import React from 'react';
 import Switchboard from './Components/Routes/Switchboard';
 import { defaultRoutes } from './Components/Routes/Switchboard';
-import { StoreProvider } from './Components/Providers/StoreProvider';
-import './App.css';
+import GlobalProviders from './Components/Providers/GlobalProviders';
 
 function App() {
   return (
     <div className="App">
-      <StoreProvider>
+      <GlobalProviders>
         <Switchboard routes={defaultRoutes} />
-      </StoreProvider>
+      </GlobalProviders>
     </div>
   );
 }

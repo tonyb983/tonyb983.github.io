@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Formik, Field, FieldArray, Form, ErrorMessage } from 'formik';
+import { Redirect } from 'react-router-dom';
 import { uniq } from 'lodash';
+import { Input, Label, TextArea, Container, GreenButton, Button } from 'pcln-design-system';
 import { newPostSchema } from './NewPostSchema';
 import { useStore } from '../../Providers/StoreProvider';
-
-import style from './NewPostForm.module.css';
+import Debug from '../../../Utils/DebugComponent';
 
 const NewPostForm = () => {
+  const [redirect, setRedirect] = useState(false);
   const { blog } = useStore();
   const handleSubmit = (values, actions) => {
     const { title, content, tags } = values;
@@ -20,6 +22,7 @@ const NewPostForm = () => {
 
   return (
     <Fragment>
+      {redirect && <Redirect to="/posts" />}
       <Formik
         initialValues={{
           title: '',
@@ -28,42 +31,72 @@ const NewPostForm = () => {
           tagInput: '',
         }}
         onSubmit={(values, actions) => {
-          actions.setSubmitting(true);
-          alert(JSON.stringify(values, null, 2));
-          setTimeout(() => {
-            actions.setSubmitting(false);
-          }, 2000);
+          handleSubmit(values, actions);
+          setRedirect(true);
         }}
         validationSchema={newPostSchema}
       >
-        {({ isSubmitting, handleReset, values, dirty, setFieldValue }) => (
-          <div>
-            {isSubmitting && <div className={style.Overlay} />}
-            <Form className={style.Form}>
+        {({ isSubmitting, handleReset, values, dirty, setFieldValue, validateField }) => (
+          <Container>
+            {isSubmitting && <div />}
+            <Form>
+              <Label pt={2} htmlFor="title">
+                Post Title
+              </Label>
               <Field
-                type="text"
                 placeholder="Enter Title..."
                 name="title"
-                className={style.Title}
+                render={(field, form) => {
+                  return (
+                    <div>
+                      {/* <Debug field={field} form={form} /> */}
+                      <Input
+                        id="title"
+                        value={field.value}
+                        onChange={(evt) => {
+                          setFieldValue('title', evt.target.value);
+                          validateField('title');
+                        }}
+                      />
+                    </div>
+                  );
+                }}
               />
+              <ErrorMessage name="title" />
 
-              <ErrorMessage name="title" className={style.ErrorText} />
-
+              <Label pt={2} htmlFor="content">
+                Post Content
+              </Label>
               <Field
-                type="textarea"
                 name="content"
                 placeholder="Post Content..."
-                className={style.Content}
+                render={(field, form) => {
+                  return (
+                    <div>
+                      {/* <Debug field={field} form={form} /> */}
+                      <TextArea
+                        id="content"
+                        value={field.value}
+                        onChange={(evt) => {
+                          setFieldValue('content', evt.target.value);
+                          validateField('content');
+                        }}
+                      />
+                    </div>
+                  );
+                }}
               />
+              <ErrorMessage name="content" />
 
-              <ErrorMessage name="content" className={style.ErrorText} />
-
+              <Label htmlFor="tags" hidden>
+                Tags
+              </Label>
               <FieldArray name="tags">
                 {({ push, remove, pop }) => {
                   const handleKeyDown = (evt) => {
                     if (!evt || !evt.keyCode) return;
 
-                    if ((evt.keyCode === 13 || evt.keyCode === 188) && values.tagInput !== '') {
+                    if (evt.keyCode === 188 && values.tagInput !== '') {
                       push(values.tagInput);
                       setFieldValue('tagInput', '');
                       return;
@@ -80,44 +113,29 @@ const NewPostForm = () => {
 
                   return (
                     <label>
-                      <ul className={style.TagContainer}>
+                      <ul>
                         {values.tags.map((item, i) => (
-                          <li key={`${item}${i}`} className={style.Tag} onClick={handleRemove(i)}>
+                          <li key={`${item}${i}`} onClick={handleRemove(i)}>
                             {item}
                             <span>(x)</span>
                           </li>
                         ))}
-                        <Field
-                          className={style.TagInput}
-                          type="text"
-                          name="tagInput"
-                          onKeyDown={handleKeyDown}
-                        />
+                        <Field type="text" name="tagInput" onKeyDown={handleKeyDown} />
                       </ul>
                     </label>
                   );
                 }}
               </FieldArray>
+              <ErrorMessage name="tags" />
 
-              <ErrorMessage name="tags" className={style.ErrorText} />
-
-              <button
-                type="submit"
-                disabled={!dirty || isSubmitting}
-                className={`${style.Button} ${style.SubmitButton}`}
-              >
+              <GreenButton type="submit" disabled={isSubmitting}>
                 Submit
-              </button>
-              <button
-                disabled={!dirty}
-                onClick={handleReset}
-                type="button"
-                className={style.Button}
-              >
+              </GreenButton>
+              <Button color="lightYellow" disabled={!dirty} onClick={handleReset} type="button">
                 Reset
-              </button>
+              </Button>
             </Form>
-          </div>
+          </Container>
         )}
       </Formik>
     </Fragment>

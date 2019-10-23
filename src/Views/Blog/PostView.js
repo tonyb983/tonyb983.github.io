@@ -1,26 +1,40 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
+import { Card, Heading, Divider, Text, Badge, Hug, Banner } from 'pcln-design-system';
 
 const PostView = ({ post }) => {
   if (!post) {
-    return <div className="Error">Something has gone wrong...</div>;
+    return (
+      <Banner
+        data-testid="PostViewError"
+        p={2}
+        color="error"
+        iconName="Warning"
+        text="Error displaying post."
+      />
+    );
   }
 
-  const {
-    title = 'Unable to get post title.',
-    content = 'Unable to get post content.',
-    tags = [],
-    created = new Date(1),
-  } = post;
+  const { title, content, tags = [], created } = post;
 
   return (
-    <div className="PostView">
-      <h2 className="PostTitle">{title}</h2>
-      <span className="PostDate">{format(created, 'Pp')}</span>
-      <div className="PostContent">{content}</div>
-      <div className="PostTags">{tags && tags.length > 0 && 'Tags: '.concat(tags.join(' '))}</div>
-    </div>
+    <Card data-testid="PostView" p={4}>
+      <Hug data-testid="PostViewDate">
+        {formatDistanceToNow(created, { addSuffix: true, includeSeconds: true })}
+      </Hug>
+      <Heading data-testid="PostViewTitle">{title}</Heading>
+      <Divider />
+      <Text data-testid="PostViewContent" fontSize={4}>
+        {content}
+      </Text>
+      {tags.length > 0 &&
+        tags.map((tag, i) => (
+          <Badge data-testid={`PostViewTag${i}`} key={tag} p={1} mt={2} mr={2} bg="lightPurple">
+            {tag}
+          </Badge>
+        ))}
+    </Card>
   );
 };
 

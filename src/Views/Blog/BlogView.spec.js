@@ -7,7 +7,7 @@ import {
   waitForDomChange,
   prettyDOM,
   cleanup,
-} from '@testing-library/react';
+} from '../../Utils/TestUtils';
 import { act } from 'react-dom/test-utils';
 import { head } from 'lodash';
 import { Post } from '../../Models/Blog/PostModel';
@@ -21,18 +21,20 @@ describe('Blog View Tests', () => {
   });
 
   it('Renders without a store', async () => {
-    const queries = render(<BlogView />);
-    expect(queries.container.children.item(0).className).toBe('Error');
+    const { findByText } = render(<BlogView />);
+    const blogView = await findByText('There are no posts to display.');
+    expect(blogView).toBeDefined();
   });
 
   it('Renders when the store has no posts.', async () => {
     const blog = Blog.create({});
 
-    const queries = render(<BlogView blog={blog} />);
-    expect(queries.container.children.item(0).className).toBe('BlogView');
+    const { findByTestId } = render(<BlogView />);
+    const blogView = await findByTestId('BlogView');
+    expect(blogView).toBeDefined();
   });
 
-  it('Renders a list of posts.', () => {
+  it('Renders a list of posts.', async () => {
     const post1 = Post.create({
       title: 'Post Title 1',
       content: 'Post content number one.',
@@ -54,9 +56,9 @@ describe('Blog View Tests', () => {
     blog.addPost(post2);
     blog.addPost(post3);
 
-    const queries = render(<BlogView blog={blog} />);
-    const blogView = head(queries.container.getElementsByClassName('BlogView'));
-    const postViews = queries.container.getElementsByClassName('PostView');
+    const { findByTestId, findAllByTestId } = render(<BlogView blog={blog} />);
+    const blogView = await findByTestId('BlogView');
+    const postViews = await findAllByTestId('PostView');
 
     expect(blogView).toBeDefined();
     //console.log(prettyDOM(queries.container));
@@ -65,7 +67,7 @@ describe('Blog View Tests', () => {
     act(() => {
       blog.addPost({ title: 'Post 4', content: 'The fourth post son!' });
     });
-    const newPostViews = queries.container.getElementsByClassName('PostView');
+    const newPostViews = await findAllByTestId('PostView');
     expect(newPostViews.length).toBe(4);
   });
 });

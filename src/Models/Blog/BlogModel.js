@@ -1,6 +1,6 @@
 import { values } from 'mobx';
 import { types, getEnv, isStateTreeNode, typecheck } from 'mobx-state-tree';
-import { isString, isBoolean, head, has } from 'lodash';
+import { isString, isBoolean, head, has, sortBy, reverse } from 'lodash';
 import { Post } from './PostModel';
 
 export const Blog = types
@@ -35,6 +35,9 @@ export const Blog = types
     },
     get allPosts() {
       return values(self.posts);
+    },
+    allPostsNewestFirst() {
+      return reverse(sortBy(values(self.posts), 'created'));
     },
     /**
      * Searches for a Post with the given ID.

@@ -9,6 +9,7 @@ import { useLocalStore } from 'mobx-react-lite';
 
 const preloadedInitializer = () => createPreloadedStore();
 const randomInitializer = () => createRandomStore();
+const randomInitializerLogged = () => createRandomStore(true);
 const freshInitializer = () => createFreshStore();
 const snapshotInitializer = (snapshot) => createStoreFromSnapshot(snapshot);
 const snapshotCacher = (snapshot) => () => createStoreFromSnapshot(snapshot);
@@ -19,10 +20,25 @@ const getStoreFunction = () => {
     return preloadedInitializer;
   }
 
-  if (process.env.REACT_APP_PRELOAD_STORE) {
-    if (process.env.REACT_APP_RANDOMIZE_STORE) {
+  const logCreation =
+    process.env.REACT_APP_LOG_STORE_CREATION && process.env.REACT_APP_LOG_STORE_CREATION === 'true'
+      ? true
+      : false;
+
+  const preload =
+    process.env.REACT_APP_PRELOAD_STORE && process.env.REACT_APP_PRELOAD_STORE === 'true'
+      ? true
+      : false;
+
+  const randomize =
+    process.env.REACT_APP_RANDOMIZE_STORE && process.env.REACT_APP_RANDOMIZE_STORE === 'true'
+      ? true
+      : false;
+
+  if (preload) {
+    if (randomize) {
       console.log('Creating random store...');
-      return randomInitializer;
+      return logCreation ? randomInitializerLogged : randomInitializer;
     }
 
     console.log('Creating preloaded store...');

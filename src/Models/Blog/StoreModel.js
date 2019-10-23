@@ -60,11 +60,29 @@ export const createPreloadedStore = () => {
     content: 'Post content number three.',
     tags: ['tag6', 'tag4', 'tag1'],
   });
+  const post4 = Post.create({
+    title: 'Post Title 4',
+    content: 'Post content number four.',
+    tags: ['tag1', 'tag2', 'tag7'],
+  });
+  const post5 = Post.create({
+    title: 'Post Title 5',
+    content: 'Post content number five.',
+    tags: ['tag3', 'tag4', 'tag5'],
+  });
+  const post6 = Post.create({
+    title: 'Post Title 6',
+    content: 'Post content number six.',
+    tags: [],
+  });
 
   const blog = Blog.create();
   blog.addPost(post1);
   blog.addPost(post2);
   blog.addPost(post3);
+  blog.addPost(post4);
+  blog.addPost(post5);
+  blog.addPost(post6);
 
   const store = Store.create({ blog, users });
   return store;
@@ -76,12 +94,16 @@ export const createStoreFromSnapshot = (snapShot) => {
   return Store.create(snapShot);
 };
 
-export const createRandomStore = () => {
-  const users = CreateUserStore(8);
-  const blog = CreateBlog(30);
+export const createRandomStore = (logCreation = false) => {
+  const userDB = CreateUserStore(8, logCreation, logCreation);
+  const blog = CreateBlog(30, logCreation, logCreation);
 
-  const store = Store.create({ blog, users });
-  console.log(`Created Random Store: ${JSON.stringify(store, null, 2)}`);
+  if (logCreation) {
+    console.log(`Creating store with ${userDB.users.size} Users and ${blog.posts.size} Posts.`);
+  }
+
+  const store = Store.create({ blog, userDB });
+  //console.log(`Created Random Store: ${JSON.stringify(store, null, 2)}`);
   return store;
 };
 
@@ -164,7 +186,7 @@ export const CreateUserStore = (options = undefined, logs = false, logUsers = fa
 
 export const CreateRandomPost = (logs = false) => {
   const title = faker.company.catchPhrase();
-  const content = times(random(1, 5), (_) => faker.hacker.phrase()).join('. ');
+  const content = times(random(1, 5), (_) => faker.hacker.phrase()).join(' ');
   const tags = times(random(6), (_) => faker.commerce.department());
 
   if (logs) {
