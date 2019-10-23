@@ -50,7 +50,7 @@ export const Blog = types
     searchPostsByTag(tag) {
       if (!tag || !isString(tag)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByContent(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByContent(): Given query string is not a string.');
         }
 
         return [];
@@ -61,7 +61,7 @@ export const Blog = types
     firstPostByTag(tag) {
       if (!tag || !isString(tag)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByContent(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByContent(): Given query string is not a string.');
         }
 
         return undefined;
@@ -76,7 +76,7 @@ export const Blog = types
     searchPostsByTagText(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByTagText(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByTagText(): Given query string is not a string.');
         }
 
         return [];
@@ -87,7 +87,7 @@ export const Blog = types
     firstPostByTagText(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByTagText(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByTagText(): Given query string is not a string.');
         }
 
         return undefined;
@@ -102,7 +102,7 @@ export const Blog = types
     searchPostsByTitle(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByTitle(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByTitle(): Given query string is not a string.');
         }
 
         return [];
@@ -113,7 +113,7 @@ export const Blog = types
     firstPostByTitle(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByTitle(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByTitle(): Given query string is not a string.');
         }
 
         return undefined;
@@ -128,7 +128,7 @@ export const Blog = types
     searchPostsByContent(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByContent(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByContent(): Given query string is not a string.');
         }
 
         return [];
@@ -139,7 +139,7 @@ export const Blog = types
     firstPostByContent(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByContent(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByContent(): Given query string is not a string.');
         }
 
         return undefined;
@@ -154,7 +154,7 @@ export const Blog = types
     searchPostsByString(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByString(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByString(): Given query string is not a string.');
         }
 
         return [];
@@ -168,7 +168,7 @@ export const Blog = types
     firstPostByString(query) {
       if (!query || !isString(query)) {
         if (self.debugMode) {
-          console.error(`PostStore@SearchPostsByString(): Given query string is not a string.`);
+          console.error('PostStore@SearchPostsByString(): Given query string is not a string.');
         }
 
         return undefined;
@@ -191,7 +191,7 @@ export const Blog = types
     addPost(post) {
       if (!post) {
         if (self.debugMode) {
-          console.error(`PostStore@AddPost(): Given post is not defined.`);
+          console.error('PostStore@AddPost(): Given post is not defined.');
         }
 
         return;
@@ -214,7 +214,7 @@ export const Blog = types
       }
 
       if (self.debugMode) {
-        console.error(`PostStore@AddPost(): Given post is not valid.`);
+        console.error('PostStore@AddPost(): Given post is not valid.');
       }
     },
     removePost(post) {
@@ -222,9 +222,9 @@ export const Blog = types
         if (self.debugMode) {
           const logger = getEnv(self).logger;
           if (logger) {
-            logger.Error(`PostStore@RemovePost(): Given post is not defined.`);
+            logger.Error('PostStore@RemovePost(): Given post is not defined.');
           } else {
-            console.error(`PostStore@RemovePost(): Given post is not defined.`);
+            console.error('PostStore@RemovePost(): Given post is not defined.');
           }
         }
 

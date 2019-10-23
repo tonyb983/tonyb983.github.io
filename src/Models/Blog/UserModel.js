@@ -5,15 +5,18 @@ import { isString, isBoolean, forOwn } from 'lodash';
 export const SettingsKeys = ['theme', 'emailNotifications'];
 export const SettingsValidation = {
   theme: (val) => {
-    return val && isString(val) && (val === 'Light' || val === 'Dark');
+    return isString(val) && (val === 'Light' || val === 'Dark');
   },
   emailNotifications: (val) => {
-    return val && isBoolean(val);
+    return (
+      isBoolean(val) ||
+      (isString(val) && (val.toLowerCase() === 'true' || val.toLowerCase() === 'false'))
+    );
   },
 };
 
 export const isValidSetting = (settingName) => {
-  return settingName && isString(settingName) && SettingsKeys.indexOf(settingName) > -1;
+  return isString(settingName) && SettingsKeys.indexOf(settingName) > -1;
 };
 
 export const UserSettings = types
@@ -23,6 +26,11 @@ export const UserSettings = types
   })
   .views((self) => ({}))
   .actions((self) => ({
+    /**
+     * Set the value of a User Setting.
+     * @param {'theme' | 'emailNotifications'} key The key of the value to set.
+     * @param {any} value The value to set.
+     */
     set(key, value) {
       if (!key || !isString(key) || SettingsKeys.indexOf(key) < 0) {
         console.log(
@@ -47,7 +55,17 @@ export const UserSettings = types
           self.theme = value;
           return true;
         case 'emailNotifications':
-          self.emailNotifications = value;
+          if (isBoolean(value)) {
+            self.emailNotifications = value;
+          } else if (isString(value)) {
+            if (value.toLowerCase() === 'true') {
+              self.emailNotifications = true;
+            } else if (value.toLowerCase() === 'false') {
+              self.emailNotifications = false;
+            } else {
+              return false;
+            }
+          }
           return true;
         default:
           console.log(
@@ -144,7 +162,7 @@ export const UserStore = types
     registerUser(user) {
       if (!user) {
         if (self.debugMode) {
-          console.error(`UserStore@RegisterUser(): Given User is not defined.`);
+          console.error('UserStore@RegisterUser(): Given User is not defined.');
         }
 
         return undefined;
@@ -167,13 +185,13 @@ export const UserStore = types
       }
 
       if (self.debugMode) {
-        console.error(`UserStore@RegisterUser(): Given user is not valid.`);
+        console.error('UserStore@RegisterUser(): Given user is not valid.');
       }
       return false;
     },
     updateUserSetting(user, setting, value) {
       if (!user || !setting || !value) {
-        console.log(`UserStore@UpdateUserSetting: undefined data passed in.`);
+        console.log('UserStore@UpdateUserSetting: undefined data passed in.');
         return false;
       }
 
@@ -188,7 +206,7 @@ export const UserStore = types
     },
     updateUserSettings(user, settingsObject) {
       if (!user || !settingsObject) {
-        console.log(`UserStore@UpdateUserSettings: undefined data passed in.`);
+        console.log('UserStore@UpdateUserSettings: undefined data passed in.');
         return [];
       }
 

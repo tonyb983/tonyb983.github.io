@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import _ from 'lodash';
-import faker from 'faker';
 
 import NavBar from './NavBar';
 import IndexPage from '../Pages/IndexPage';

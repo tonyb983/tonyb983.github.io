@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "react-app",
+    "prettier",
+    "prettier/react"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "semi": "error",
+    "no-unused-vars": 0,
+    "quotes": [
+      "error",
+      "single",
+      { "avoidEscape": true, "allowTemplateLiterals": false }
+    ]
+  }
+}
