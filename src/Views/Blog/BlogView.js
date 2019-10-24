@@ -1,7 +1,7 @@
 import React from 'react';
 import { values } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { Banner } from 'pcln-design-system';
+import { Banner, Container, Divider } from 'pcln-design-system';
 import PostView from './PostView';
 
 const BlogView = ({ blog }) => {
@@ -21,9 +21,20 @@ const BlogView = ({ blog }) => {
 
   return (
     <div data-testid="BlogView" className="BlogView">
-      {blog.allPostsNewestFirst().map((p) => (
-        <PostView key={p.title} post={p} />
-      ))}
+      <Container maxWidth={800}>
+        {blog.allPostsNewestFirst().map((p, i, a) => {
+          if (i !== a.length) {
+            return (
+              <React.Fragment>
+                <PostView key={p.title} post={p} />
+                <Divider />
+              </React.Fragment>
+            );
+          }
+
+          return <PostView key={p.title} post={p} />;
+        })}
+      </Container>
     </div>
   );
 };

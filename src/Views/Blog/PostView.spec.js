@@ -33,7 +33,7 @@ describe('Post View Tests', () => {
     const { findByTestId } = render(<PostView post={post} />);
     const postHtml = await findByTestId('PostView');
 
-    expect(postHtml.firstChild.textContent.includes('/')).toBe(true);
+    expect(postHtml.firstChild.textContent.includes('ago')).toBe(true);
     // console.log(prettyDOM(queries.container));
   });
 

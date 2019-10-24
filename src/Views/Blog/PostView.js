@@ -19,7 +19,7 @@ const PostView = ({ post }) => {
   const { title, content, tags = [], created } = post;
 
   return (
-    <Card data-testid="PostView" p={4}>
+    <Card data-testid="PostView" p={4} borderWidth={0}>
       <Hug data-testid="PostViewDate">
         {formatDistanceToNow(created, { addSuffix: true, includeSeconds: true })}
       </Hug>

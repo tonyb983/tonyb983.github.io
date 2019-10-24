@@ -30,7 +30,7 @@ describe('Blog View Tests', () => {
     const blog = Blog.create({});
 
     const { findByTestId } = render(<BlogView />);
-    const blogView = await findByTestId('BlogView');
+    const blogView = await findByTestId('BlogViewError');
     expect(blogView).toBeDefined();
   });
 
