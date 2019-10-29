@@ -24,7 +24,7 @@ const Navigation = ({ routes }) => {
     lerpColor(startColor, endColor, i / (routes.length - 1)),
   );
 
-  console.log(`(Navigation) routes: ${JSON.stringify(routes, null, 2)}`);
+  //console.log(`(Navigation) routes: ${JSON.stringify(routes, null, 2)}`);
 
   return (
     <motion.ul variants={navVariants}>
