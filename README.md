@@ -1,3 +1,5 @@
+[Google verify?](google52f5e5c6f60aa6d4.html)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
