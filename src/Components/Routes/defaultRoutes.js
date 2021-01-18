@@ -15,6 +15,14 @@ export const defaultRoutes = [
     component: <IndexPage />,
     icon: <Icon name="Home" color="while" />,
   },
+  // google52f5e5c6f60aa6d4.html
+  {
+    url: '/google52f5e5c6f60aa6d4.html',
+    name: 'Verify',
+    exact: true,
+    component: <Redirect to="tonyb983.github.io/google52f5e5c6f60aa6d4.html" />,
+    icon: <Icon name="Document" color="while" />,
+  },
   {
     url: '/posts',
     name: 'Posts',
